@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using UnityEngine;
 
 namespace StoryEmails.Emails
 {
@@ -13,7 +14,13 @@ namespace StoryEmails.Emails
         public string body;
         public string from;
         public string fromName;
-        public EmailStatus status;
+        public EmailType status;
+
+
+        //Attachments
+        public bool hasAttachment;
+        public string attachmentFileName;
+        public Sprite attachmentImage;
 
     }
 }

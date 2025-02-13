@@ -5,10 +5,10 @@ using System.Text;
 
 namespace StoryEmails.Emails
 {
-    public enum EmailStatus
+    public enum EmailType
     {
-        Unread,
-        Read,
+        Story,
+        Normal,
         Spam,
         Timed
     }

@@ -30,5 +30,8 @@
     <Reference Include="Assembly-CSharp">
       <HintPath>..\..\..\..\Desktop\Test\FP2_Data\Managed\Assembly-CSharp.dll</HintPath>
     </Reference>
+    <Reference Include="FP2Lib">
+      <HintPath>..\..\..\..\Desktop\Test\BepInEx\plugins\FP2Lib.dll</HintPath>
+    </Reference>
   </ItemGroup>
 </Project>
