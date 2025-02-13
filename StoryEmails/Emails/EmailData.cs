@@ -8,19 +8,19 @@ namespace StoryEmails.Emails
 {
     public class EmailData
     {
-        public bool received;
-
+        //Contents
         public string subject;
         public string body;
         public string from;
         public string fromName;
         public EmailType status;
 
-
         //Attachments
         public bool hasAttachment;
         public string attachmentFileName;
         public Sprite attachmentImage;
 
+        //Unlock requirements
+        public int storyflag = 0;       
     }
 }

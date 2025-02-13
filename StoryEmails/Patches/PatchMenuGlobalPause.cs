@@ -1,6 +1,5 @@
 ﻿using FP2Lib.Player;
 using HarmonyLib;
-using MonoMod.Utils;
 using StoryEmails.Emails;
 using System;
 using System.Collections.Generic;
@@ -28,8 +27,6 @@ namespace StoryEmails.Patches
         static GameObject inbox;
         static GameObject mail;
         static GameObject attachments;
-
-
 
         static SpriteRenderer tabInbox;
         static SpriteRenderer tabMail;
@@ -142,15 +139,13 @@ namespace StoryEmails.Patches
             statusIcons[2] = Plugin.moddedBundle.LoadAsset<Sprite>("MailSpamIcon");
             statusIcons[3] = Plugin.moddedBundle.LoadAsset<Sprite>("MailTimedIcon");
 
+            //Get final list of e-mails for this game state.
+            emailList = EmailHandler.GetSortedEmails();
 
-
-
-            //FOR TESTING
-            emailList[0] = new EmailData { from = "magister@shangtu.gov", fromName = "Magister", 
-                body = "<s=1.5>Greetings <PLAYER></s>,\r\nWe hope you find the facilities in the palace to your liking. Your center of operations is the map screen, which will allow you to select your next mission. \r\n\r\nAdditionally, there is a training room run by Gong, as well as a lab area for the creation of items useful to your missions. The rest of the palace is yours to explore.\r\n\r\nSafe winds,\r\n<s=1.5>The Magister</s>", 
-                received = true, status = EmailType.Story, subject = "Welcome!", hasAttachment = true, attachmentFileName = "Test.png", attachmentImage = Plugin.moddedBundle.LoadAsset<Sprite>("MenuIconMail0")};
-            emailList = emailList.AddToArray(new EmailData { from = "magister@shangtu.gov", fromName = "Magister", body = "Lol. Lmao.", received = true, status = EmailType.Story, subject = "Great Apologies for Spam.", hasAttachment = false });
-
+            //Reset values
+            currentEmailID = 0;
+            currentEmailOffset = 0;
+            emailListLength = 0;
 
             //Update email list
             UpdateEmailList(__instance);
@@ -220,12 +215,12 @@ namespace StoryEmails.Patches
             {
                 if (FPStage.menuInput.down)
                 {
-                    if (currentEmailID < emailList.Length - 1)
+                    if (currentEmailID < 9)
                     {
                         currentEmailID++;
                         FPAudio.PlaySfx(11);
                     }
-                    else if (currentEmailID + currentEmailOffset < emailList.Length - 1)
+                    else if ((currentEmailID + currentEmailOffset) < emailListLength - 1)
                     {
                         currentEmailOffset++;
                         FPAudio.PlaySfx(11);
@@ -275,17 +270,14 @@ namespace StoryEmails.Patches
             GameObject emailScrollbar = inbox.transform.GetChild(0).gameObject;
             GameObject emailScrollbarTop = inbox.transform.GetChild(2).gameObject;
 
-            int[] messageRows = new int[emailList.Length];
+            int[] messageRows = new int[emailList.Length + 11];
             emailListLength = 0;
             for (int i = 1; i < emailList.Length; i++)
             {
-                if (i == 1 || emailList[i].received)
-                {
-                    messageRows[emailListLength] = i;
-                    emailListLength++;
-                }
+                messageRows[emailListLength] = i;
+                emailListLength++;
             }
-            for (int j = 0; j < emailList.Length; j++)
+            for (int j = 0; j < 10; j++)
             {
                 SpriteRenderer slot = inboxFields[j].transform.GetChild(0).GetComponent<SpriteRenderer>();
                 SpriteRenderer unread = inboxFields[j].transform.GetChild(1).GetComponent<SpriteRenderer>();
@@ -294,7 +286,7 @@ namespace StoryEmails.Patches
 
                 EmailData email = emailList[messageRows[j + currentEmailOffset]];
 
-                if (messageRows[j + currentEmailOffset] == 1 || email.received)
+                if (messageRows[j + currentEmailOffset] > 0)
                 {
                     //Fill contents of row
                     subject.text = email.subject;
