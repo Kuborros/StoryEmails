@@ -51,6 +51,7 @@ namespace StoryEmails.Patches
             for (var i = 1; i < codes.Count; i++)
             {
                 //Edit the forced menu exit icon to be 5th, not 4th one.
+                //Which effectively means it will never trigger as there is no 5th entry. >:3c
                 if (codes[i].opcode == OpCodes.Ldc_I4_4 && codes[i - 1].opcode == OpCodes.Ldfld)
                 {
                     codes[i].opcode = OpCodes.Ldc_I4_5;
@@ -87,8 +88,9 @@ namespace StoryEmails.Patches
             emailList = new EmailData[1];
 
             //Move 'Exit' to the 5th slot and move it's icon.
-            ___folder = ___folder.AddToArray(___folder[4]);
-            ___folder[5].icon.transform.position = new Vector3(64, -368, 0);
+            //Disabled to make UI behave better.
+            //___folder = ___folder.AddToArray(___folder[4]);
+            //___folder[5].icon.transform.position = new Vector3(64, -368, 0);
 
             //Load our stuff
             GameObject mapButtonEmail = UnityEngine.Object.Instantiate(Plugin.moddedBundle.LoadAsset<GameObject>("map_buttons_email"));
@@ -180,7 +182,7 @@ namespace StoryEmails.Patches
             }
             else if (FPStage.menuInput.right || FPStage.menuInput.confirm)
             {
-                if (instance.folder[currentWindow].currentFolder <= 2)
+                if (instance.folder[currentWindow].currentFolder <= 2 && emailList.Length > 1)
                 {
                     if (instance.folder[currentWindow].currentFolder < 2 || currentEmail.hasAttachment)
                     {
@@ -215,7 +217,7 @@ namespace StoryEmails.Patches
             {
                 if (FPStage.menuInput.down)
                 {
-                    if (currentEmailID < 9)
+                    if (currentEmailID < 9 && currentEmailID < emailListLength - 1)
                     {
                         currentEmailID++;
                         FPAudio.PlaySfx(11);
@@ -240,20 +242,6 @@ namespace StoryEmails.Patches
                     }
                 }
                 UpdateEmailList(instance);
-            }
-            else if (instance.folder[currentWindow].currentFolder == 2)
-            {
-                if (FPStage.menuInput.down)
-                {
-
-                }
-            }
-            else if (instance.folder[currentWindow].currentFolder == 3)
-            {
-                if (FPStage.menuInput.down)
-                {
-
-                }
             }
             if (instance.folder[currentWindow].currentFolder == 0 || FPStage.menuInput.cancel)
             {
