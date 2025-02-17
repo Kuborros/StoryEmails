@@ -9,7 +9,8 @@ using UnityEngine;
 
 namespace StoryEmails
 {
-    [BepInPlugin(MyPluginInfo.PLUGIN_GUID, "Story E-Mails", "1.0.0")]
+    [BepInPlugin("com.kuborro.plugins.fp2.playablespade", "Story E-Mails", "1.0.0")]
+    [BepInDependency("000.kuborro.libraries.fp2.fp2lib")]
     public class Plugin : BaseUnityPlugin
     {
         internal static new ManualLogSource Logger;
@@ -25,9 +26,6 @@ namespace StoryEmails
         private void Awake()
 #pragma warning restore IDE0051 // Remove unused private members
         {
-            Logger = base.Logger;
-            Logger.LogInfo($"Plugin {MyPluginInfo.PLUGIN_GUID} is loaded!");
-
             string assetPath = Path.Combine(Path.GetFullPath("."), "mod_overrides");
             moddedBundle = AssetBundle.LoadFromFile(Path.Combine(assetPath, "email_menu.assets"));
             if (moddedBundle == null)

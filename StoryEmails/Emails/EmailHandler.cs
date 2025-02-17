@@ -278,7 +278,6 @@ namespace StoryEmails.Emails
             Regex jsonRegex = new(@"\{\s+[^\}]+\}(?=(,|\s+\]))", RegexOptions.Multiline | RegexOptions.Compiled);
 
             MatchCollection elements = jsonRegex.Matches(json);
-            Logger.LogDebug(elements.Count);
 
             foreach (Match element in elements)
             {
