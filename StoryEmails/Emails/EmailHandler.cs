@@ -273,7 +273,6 @@ namespace StoryEmails.Emails
 
             //I LOVE regex, i hope you do so too!!!
             //But seriously, this splits the JSON array into just single objects
-            //More in-depth explanation at: https://regex101.com/r/P7TTB3/2
             //Genuinely cursed, but what else can i do outside of adding external libraries...
             Regex jsonRegex = new(@"\{\s+[^\}]+\}(?=(,|\s+\]))", RegexOptions.Multiline | RegexOptions.Compiled);
 

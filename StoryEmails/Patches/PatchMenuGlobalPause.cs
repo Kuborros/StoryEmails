@@ -320,7 +320,8 @@ namespace StoryEmails.Patches
             {
                 RenderEmail(instance, currentEmail);
             }
-            emailScrollbar.transform.localPosition = emailScrollbarTop.transform.position - new Vector3(0f, (float)(currentEmailID + currentEmailOffset) / (float)Mathf.Max(emailList.Length - 1, emailListLength - 1) * 72f, 0f);
+            //Move the actual scrollbar. 
+            emailScrollbar.transform.localPosition = emailScrollbarTop.transform.localPosition - new Vector3(0f, (float)(currentEmailID + currentEmailOffset + 3) / (float)Mathf.Max(emailList.Length - 1,9) * 208f, 0f);
         }
 
         static void RenderEmail(MenuGlobalPause instance, EmailData email)

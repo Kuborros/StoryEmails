@@ -9,7 +9,7 @@ using UnityEngine;
 
 namespace StoryEmails
 {
-    [BepInPlugin("com.kuborro.plugins.fp2.playablespade", "Story E-Mails", "1.0.0")]
+    [BepInPlugin("com.kuborro.plugins.fp2.storyemails", "Story E-Mails", "1.0.0")]
     [BepInDependency("000.kuborro.libraries.fp2.fp2lib")]
     public class Plugin : BaseUnityPlugin
     {
