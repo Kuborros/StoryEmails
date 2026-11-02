@@ -40,7 +40,7 @@ Here is an example of a file adding two e-mails:
     "attachmentFileName": "",
     "attachmentRealActualPath": "",
     "storyFlag": 8,
-	"collectedTimeCapsules": 0
+    "collectedTimeCapsules": 0
     "senderIsNPC": false
 },
 {
@@ -56,7 +56,7 @@ Here is an example of a file adding two e-mails:
     "BaseChars": false,
     "ModdedChars": false,
     "modRecipients": ["com.kuborro.spade"],
-	  "excludedModRecipients": [],
+    "excludedModRecipients": [],
     "hasAttachment": true,
     "attachmentFileName": "funny-name.png",
     "attachmentRealActualPath": "Emails/Example.png",
