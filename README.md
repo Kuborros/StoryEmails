@@ -35,11 +35,12 @@ Here is an example of a file adding two e-mails:
     "BaseChars": true,
     "ModdedChars": true,
     "modRecipients": ["custom.character.i.want.to.include.uid","another.one"],
-	  "excludedModRecipients": ["but.this.one.should.not.get.it"],
+    "excludedModRecipients": ["but.this.one.should.not.get.it"],
     "hasAttachment": false,
     "attachmentFileName": "",
     "attachmentRealActualPath": "",
     "storyFlag": 8,
+	"collectedTimeCapsules": 0
     "senderIsNPC": false
 },
 {
@@ -86,6 +87,7 @@ It works on custom characters too! Since they don't have 'full' names, they will
 - "attachmentFileName": **Decorative** filename of your attachment, shown in the e-mail UI. Not the actual file you are loading. 
 - "attachmentRealActualPath": Actual path to the image you wish to load as an attachment. The path is relative to your JSON file (so, in the same folder as it). The image **should be** sized to 320x240px or smaller, and be a .png file.
 - "storyFlag": On what Story Flag should the e-mail be delivered. [Here](https://gist.github.com/Kuborros/61da3fde23e74ee2fab3101b026ae0f4) is a file listing all of them.
+- "collectedTimeCapsules": How many Time Capsules need to be collected in order to see this e-mail. 0 means none, as expected.
 - "senderIsNPC": If set to ``true``, the e-mail will be only shown if you met the sender NPC (so, talked to them once). Does nothing in Classic Mode.
 
 Once you are done editing, save the file as "ExtraEmails.json". 
