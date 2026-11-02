@@ -100,7 +100,11 @@ namespace StoryEmails.Emails
         /// <summary>
         /// What story flag needs to be checked to see if the mail should be shown.
         /// </summary>
-        public int storyFlag = 0;       
+        public int storyFlag = 0;
+        /// <summary>
+        /// How many Time Capsules need be collected to see this message.
+        /// </summary>
+        public int collectedTimeCapsules = 0;
         /// <summary>
         /// Is the sender an NPC in the game
         /// In that case, the e-mail will be received *only* if you met them at some point

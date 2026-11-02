@@ -23,7 +23,7 @@ namespace StoryEmails.Emails
         public static List<EmailData> modEmails = [];
 
         private static string customCharUid;
-
+        private static int timeCapsuleCount;
 
         private static ManualLogSource Logger = BepInEx.Logging.Logger.CreateLogSource("Email Loader");
 
@@ -44,6 +44,7 @@ namespace StoryEmails.Emails
             List<EmailData> emailTemp = new List<EmailData>();
             FPCharacterID currentCharacter = FPSaveManager.character;
             customCharUid = string.Empty;
+            timeCapsuleCount = CheckTimeCapsuleCount();
             if (currentCharacter > FPCharacterID.NEERA)
             {
                 PlayableChara character = PlayerHandler.currentCharacter;
@@ -92,59 +93,62 @@ namespace StoryEmails.Emails
 
         static bool EmailShouldBeShown(EmailData emailData)
         {
-            switch (FPSaveManager.character)
+            if ((emailData.storyFlag == 0 || GetStoryFlagValue(emailData.storyFlag) > 0) && timeCapsuleCount >= emailData.collectedTimeCapsules)
             {
-                case FPCharacterID.LILAC:
-                    if ((emailData.Lilac || emailData.BaseChars) && (emailData.storyFlag == 0 || GetStoryFlagValue(emailData.storyFlag) > 0))
-                    {
-                        if (emailData.senderIsNPC && FPSaveManager.gameMode != FPGameMode.CLASSIC)
+                switch (FPSaveManager.character)
+                {
+                    case FPCharacterID.LILAC:
+                        if ((emailData.Lilac || emailData.BaseChars))
                         {
-                            return (FPSaveManager.npcFlag[FPSaveManager.GetNPCNumber(emailData.fromName)] > 0);
+                            if (emailData.senderIsNPC && FPSaveManager.gameMode != FPGameMode.CLASSIC)
+                            {
+                                return (FPSaveManager.npcFlag[FPSaveManager.GetNPCNumber(emailData.fromName)] > 0);
+                            }
+                            else return true;
                         }
-                        else return true;
-                    }  
-                    break;
-                case FPCharacterID.CAROL:
-                case FPCharacterID.BIKECAROL:
-                    if ((emailData.Carol || emailData.BaseChars) && (emailData.storyFlag == 0 || GetStoryFlagValue(emailData.storyFlag) > 0))
-                    {
-                        if (emailData.senderIsNPC && FPSaveManager.gameMode != FPGameMode.CLASSIC)
+                        break;
+                    case FPCharacterID.CAROL:
+                    case FPCharacterID.BIKECAROL:
+                        if ((emailData.Carol || emailData.BaseChars))
                         {
-                            return (FPSaveManager.npcFlag[FPSaveManager.GetNPCNumber(emailData.fromName)] > 0);
+                            if (emailData.senderIsNPC && FPSaveManager.gameMode != FPGameMode.CLASSIC)
+                            {
+                                return (FPSaveManager.npcFlag[FPSaveManager.GetNPCNumber(emailData.fromName)] > 0);
+                            }
+                            else return true;
                         }
-                        else return true;
-                    }
-                    break;
-                case FPCharacterID.MILLA:
-                    if ((emailData.Milla || emailData.BaseChars) && (emailData.storyFlag == 0 || GetStoryFlagValue(emailData.storyFlag) > 0))
-                    {
-                        if (emailData.senderIsNPC && FPSaveManager.gameMode != FPGameMode.CLASSIC)
+                        break;
+                    case FPCharacterID.MILLA:
+                        if ((emailData.Milla || emailData.BaseChars))
                         {
-                            return (FPSaveManager.npcFlag[FPSaveManager.GetNPCNumber(emailData.fromName)] > 0);
+                            if (emailData.senderIsNPC && FPSaveManager.gameMode != FPGameMode.CLASSIC)
+                            {
+                                return (FPSaveManager.npcFlag[FPSaveManager.GetNPCNumber(emailData.fromName)] > 0);
+                            }
+                            else return true;
                         }
-                        else return true;
-                    }
-                    break;
-                case FPCharacterID.NEERA:
-                    if ((emailData.Neera || emailData.BaseChars) && (emailData.storyFlag == 0 || GetStoryFlagValue(emailData.storyFlag) > 0))
-                    {
-                        if (emailData.senderIsNPC && FPSaveManager.gameMode != FPGameMode.CLASSIC)
+                        break;
+                    case FPCharacterID.NEERA:
+                        if ((emailData.Neera || emailData.BaseChars))
                         {
-                            return (FPSaveManager.npcFlag[FPSaveManager.GetNPCNumber(emailData.fromName)] > 0);
+                            if (emailData.senderIsNPC && FPSaveManager.gameMode != FPGameMode.CLASSIC)
+                            {
+                                return (FPSaveManager.npcFlag[FPSaveManager.GetNPCNumber(emailData.fromName)] > 0);
+                            }
+                            else return true;
                         }
-                        else return true;
-                    }
-                    break;
-                default:
-                    if ((emailData.modRecipients.Contains(customCharUid) || (emailData.ModdedChars && !emailData.excludedModRecipients.Contains(customCharUid))) && (emailData.storyFlag == 0 || GetStoryFlagValue(emailData.storyFlag) > 0))
-                    {
-                        if (emailData.senderIsNPC && FPSaveManager.gameMode != FPGameMode.CLASSIC)
+                        break;
+                    default:
+                        if (emailData.modRecipients.Contains(customCharUid) || (emailData.ModdedChars && !emailData.excludedModRecipients.Contains(customCharUid)))
                         {
-                            return (FPSaveManager.npcFlag[FPSaveManager.GetNPCNumber(emailData.fromName)] > 0);
+                            if (emailData.senderIsNPC && FPSaveManager.gameMode != FPGameMode.CLASSIC)
+                            {
+                                return (FPSaveManager.npcFlag[FPSaveManager.GetNPCNumber(emailData.fromName)] > 0);
+                            }
+                            else return true;
                         }
-                        else return true;
-                    }
-                    break;
+                        break;
+                }
             }
             return false;
         }
@@ -159,6 +163,17 @@ namespace StoryEmails.Emails
             }
             else return 0;
         }
+
+        static int CheckTimeCapsuleCount()
+        {
+            int count = 0;
+            foreach (byte status in FPSaveManager.timeCapsules)
+            {
+                if (status > 0) count++;
+            }
+            return count;
+        }
+
 
         private static void LoadAttachments()
         {

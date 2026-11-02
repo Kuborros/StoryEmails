@@ -351,7 +351,7 @@ namespace StoryEmails.Patches
             sender.text = email.fromName;
             emailAdress.text = "<" + email.from + ">";
             messageBody.text = ParseEmailBody(email.body);
-
+            
             //Attachment logic           
             if (email.hasAttachment)
             {
